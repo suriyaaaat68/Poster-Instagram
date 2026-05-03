@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Card Template</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            width: 820px;
+            height: 1040px;
+            overflow: hidden;
+            background: #000;
+        }
+
+        #news-card {
+            width: 820px;
+            height: 1040px;
+            /* Brighter pink radial gradient to match "Right" image */
+            background: radial-gradient(circle at 100% 0%, #ff0082 0%, #a3005a 30%, #2a000f 70%, #000000 100%);
+            padding: 60px 50px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            font-family: 'Inter', sans-serif;
+        }
+
+        #card-headline {
+            color: #ffffff;
+            font-size: 54px;
+            font-weight: 900;
+            line-height: 1.1;
+            letter-spacing: -1px;
+            margin-bottom: 40px;
+            max-width: 100%;
+        }
+
+        .image-box {
+            position: relative;
+            width: 100%;
+            height: 440px;
+            background-color: #ff0082;
+            margin-bottom: 35px;
+            overflow: hidden;
+            flex-shrink: 0;
+            border-radius: 4px;
+        }
+
+        .image-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        #news-description {
+            color: #ffffff !important;
+            font-size: 28px;
+            font-weight: 500;
+            line-height: 1.4;
+            max-width: 100%;
+            height: 196px;
+            /* Exactly 5 lines (28px * 1.4 * 5) */
+            display: -webkit-box;
+            -webkit-line-clamp: 5;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            margin-top: 15px;
+            text-align: left;
+        }
+
+
+
+
+        .brand-footer {
+            position: absolute;
+            bottom: -10px;
+            left: 0px;
+            font-size: 150px;
+            font-weight: 900;
+            letter-spacing: -5px;
+            line-height: 1;
+            /* White with 16% opacity as requested */
+            color: rgba(255, 255, 255, 0.03);
+            white-space: nowrap;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="news-card">
+        <h1 id="card-headline">Tamil Nadu has registered double-digit economic growth of 10.83% for FY26.</h1>
+
+        <div class="image-box">
+            <img src="news-bg.png" alt="News" id="news-image">
+        </div>
+
+
+        <p id="news-description">According to the recently-released data of the Union Ministry of Statistics and
+            Programme Implementation. Tamil Nadu has, for the second consecutive year.</p>
+
+        <div class="brand-footer">report.live</div>
+    </div>
+</body>
+
+</html>
