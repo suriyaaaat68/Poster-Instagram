@@ -51,7 +51,7 @@ app.use('/images', express.static(IMAGE_DIR));
 app.post('/api/auth/login', loginLimiter, (req, res) => {
     const { pin } = req.body;
     if (pin === ACCESS_PIN) {
-        const token = jwt.sign({ role: 'admin' }, JWT_SECRET, { expiresIn: '7d' });
+        const token = jwt.sign({ role: 'admin' }, JWT_SECRET, { expiresIn: '2h' });
         return res.json({ success: true, token });
     }
     res.status(401).json({ success: false, error: 'Incorrect PIN' });
