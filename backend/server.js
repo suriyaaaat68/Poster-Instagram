@@ -42,6 +42,7 @@ const authenticateToken = (req, res, next) => {
     });
 };
 
+app.use(express.static(path.resolve(__dirname, '../frontend/dist')));
 app.use(express.static(path.resolve(__dirname, '../frontend')));
 
 const IMAGE_DIR = path.resolve(__dirname, '../images');
@@ -124,7 +125,12 @@ app.get('/api/generate-multiple', authenticateToken, async (req, res) => {
 
 
 app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../frontend/index.html'));
+    const distPath = path.resolve(__dirname, '../frontend/dist/index.html');
+    if (fs.existsSync(distPath)) {
+        res.sendFile(distPath);
+    } else {
+        res.sendFile(path.resolve(__dirname, '../frontend/index.html'));
+    }
 });
 
 app.listen(PORT, () => {
