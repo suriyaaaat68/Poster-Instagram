@@ -45,7 +45,9 @@ const authenticateToken = (req, res, next) => {
 app.use(express.static(path.resolve(__dirname, '../frontend/dist')));
 app.use(express.static(path.resolve(__dirname, '../frontend')));
 
-const IMAGE_DIR = path.resolve(__dirname, '../images');
+const IMAGE_DIR = (process.env.VERCEL || process.env.NODE_ENV === 'production') 
+    ? '/tmp/images' 
+    : path.resolve(__dirname, '../images');
 app.use('/images', express.static(IMAGE_DIR));
 
 /* ── API: Auth ───────────────────────────────────────────────────────────── */
@@ -133,7 +135,11 @@ app.get('*', (req, res) => {
     }
 });
 
-app.listen(PORT, () => {
-    console.log(`\n🚀 Server running at http://localhost:${PORT}`);
-    console.log(`📰 Open that URL in your browser to use the app.\n`);
-});
+if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
+    app.listen(PORT, () => {
+        console.log(`\n🚀 Server running at http://localhost:${PORT}`);
+        console.log(`📰 Open that URL in your browser to use the app.\n`);
+    });
+}
+
+module.exports = app;

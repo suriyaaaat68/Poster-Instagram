@@ -7,7 +7,9 @@ const puppeteer = require('puppeteer');
 const NEWS_API_KEY = process.env.NEWS_API_KEY;
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 const CARD_TEMPLATE_PATH = path.resolve(__dirname, '../frontend/card-template.html');
-const IMAGE_DIR = path.resolve(__dirname, '../images');
+const IMAGE_DIR = (process.env.VERCEL || process.env.NODE_ENV === 'production') 
+    ? '/tmp/images' 
+    : path.resolve(__dirname, '../images');
 
 /* ── AI Summarizer (Gemini) ──────────────────────────────────────────────── */
 async function summarizeDescription(text) {
@@ -80,10 +82,24 @@ async function fetchNews(options = {}) {
 async function generateNewsImage(newsData) {
     console.log('🖼️  Generating news card image...');
 
-    const browser = await puppeteer.launch({
-        headless: 'new',
-        args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-web-security']
-    });
+    let browser;
+    const isVercel = process.env.VERCEL || process.env.NODE_ENV === 'production';
+
+    if (isVercel) {
+        const chromium = require('@sparticuz/chromium');
+        const puppeteerCore = require('puppeteer-core');
+        browser = await puppeteerCore.launch({
+            args: chromium.args,
+            defaultViewport: chromium.defaultViewport,
+            executablePath: await chromium.executablePath(),
+            headless: chromium.headless,
+        });
+    } else {
+        browser = await puppeteer.launch({
+            headless: 'new',
+            args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-web-security']
+        });
+    }
 
     try {
         const page = await browser.newPage();
